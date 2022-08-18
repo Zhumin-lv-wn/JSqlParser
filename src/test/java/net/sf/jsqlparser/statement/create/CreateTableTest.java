@@ -77,12 +77,7 @@ public class CreateTableTest {
         assertSqlCanBeParsedAndDeparsed(statement);
     }
 
-    @Test
-    public void testPrestoCreateTable() throws JSQLParserException {
-        String sql="create table aaaa( id int ,name varchar ,grass_date varchar ) with ( format ='Parquet',PARTITIONED_BY=array['grass_date']);";
-        Statement statement = parserManager.parse(new StringReader(sql));
-        System.out.println(statement.toString());
-    }
+
 
     @Test
     public void testStarRocksTable() throws JSQLParserException {
