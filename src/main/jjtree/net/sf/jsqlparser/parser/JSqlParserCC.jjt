@@ -168,6 +168,7 @@ TOKEN: /* SQL Keywords. prefixed with K_ to avoid name clashes */
 |   <K_COLLATE:"COLLATE">
 |   <K_COLUMN:"COLUMN">
 |   <K_COLUMNS:"COLUMNS">
+|   <K_STORE:"STORE">
 |   <K_COMMA: ",">
 |   <K_COMMIT:"COMMIT">
 |   <K_COMMENT:"COMMENT">
@@ -5444,7 +5445,15 @@ List<String> CreateParameter():
             |
             tk=<K_NULL> { param.add(tk.image); }
             |
+              tk=<K_STORE>  { param.add(tk.image); }
+              tk=<K_AS>  { param.add(tk.image); }
+              (tk=<S_IDENTIFIER> {param.add(tk.image);})*
+            |
             tk=<K_NOT> { param.add(tk.image); }
+            |
+              tk=<K_DUPLICATE> {param.add(tk.image);}
+              tk=<K_KEY> {param.add(tk.image);}
+              (tk=<S_IDENTIFIER> {param.add(tk.image);})*
             |
             tk=<K_PRIMARY> { param.add(tk.image); }
             |
