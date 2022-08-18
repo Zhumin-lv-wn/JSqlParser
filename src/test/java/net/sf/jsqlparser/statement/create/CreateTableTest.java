@@ -24,6 +24,7 @@ import net.sf.jsqlparser.parser.CCJSqlParserManager;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
+import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.statement.create.table.ColDataType;
 import net.sf.jsqlparser.statement.create.table.ColumnDefinition;
 import net.sf.jsqlparser.statement.create.table.CreateTable;
@@ -74,6 +75,13 @@ public class CreateTableTest {
         String statement
                 = "CREATE TABLE newtable AS WITH a AS (SELECT col1, col3 FROM testtable) SELECT col1, col2, col3 FROM b INNER JOIN a ON b.col1 = a.col1";
         assertSqlCanBeParsedAndDeparsed(statement);
+    }
+
+    @Test
+    public void testPrestoCreateTable() throws JSQLParserException {
+        String sql="create table aaaa( id int ,name varchar ,grass_date varchar ) with ( format ='Parquet',PARTITIONED_BY=array['grass_date']);";
+        Statement statement = parserManager.parse(new StringReader(sql));
+        System.out.println(statement.toString());
     }
 
     @Test
