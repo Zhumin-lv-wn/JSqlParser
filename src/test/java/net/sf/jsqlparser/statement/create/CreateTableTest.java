@@ -111,7 +111,7 @@ public class CreateTableTest {
 
     @Test
     public void testHiveTable() throws JSQLParserException {
-        String createSql="CREATE TABLE  IF NOT EXISTS `ZHUM`.`test1131333` (\n" +
+   /*     String createSql="CREATE TABLE  IF NOT EXISTS `ZHUM`.`test1131333` (\n" +
                 "`c1` string  COMMENT 'primaryKey',\n" +
                 "`c2` string  COMMENT 'c2',\n" +
                 "`c3` string  COMMENT 'c3',\n" +
@@ -123,7 +123,21 @@ public class CreateTableTest {
                 " clustered by (`c0`) into 10 buckets \n" +
                 "STORE AS orc\n" +
                 "LOCATION 'xxxx/ssssd/frssd'\n" +
+                "TBLPROPERTIES ('orc.compress'='orc')";*/
+        String createSql="CREATE TABLE  IF NOT EXISTS `zhum`.`test1131333` (\n" +
+                "`c1` string  COMMENT 'primaryKey',\n" +
+                "`c2` string  COMMENT 'c2',\n" +
+                "`c3` string  COMMENT 'c3',\n" +
+                "`c4` string  COMMENT 'c4',\n" +
+                "`c5` string  COMMENT 'c5',\n" +
+                "`c6` string  COMMENT 'c6',\n" +
+                "`conn` string  COMMENT 'conn'\n" +
+                ") COMMENT 'haha' PARTITIONED BY (`c0`  string) \n" +
+                " clustered by (`c0`) into 10 buckets \n" +
+                "STORED AS orc\n" +
+                "LOCATION 'xxxx/ssssd/frssd'\n" +
                 "TBLPROPERTIES ('orc.compress'='orc')";
+        System.out.println(createSql);
         Statement statement = parserManager.parse(new StringReader(createSql));
 
         CreateTable createTable=(CreateTable) statement;
