@@ -146,6 +146,60 @@ public class CreateTableTest {
     }
 
     @Test
+    public void testCreatePostgresql() throws JSQLParserException{
+        String sql="CREATE TABLE \"yiling\".\"all_field_type\" (\n" +
+                "  \"caa\" varchar(500) primary key,\n" +
+                "  \"c0\" int8 NOT NULL ,\n" +
+                "  \"c1\" bit(1),\n" +
+                "  \"c2\" bool,\n" +
+                "  \"c3\" box,\n" +
+                "  \"c4\" bytea,\n" +
+                "  \"c5\" char(1) ,\n" +
+                "  \"c6\" cidr,\n" +
+                "  \"c7\" circle,\n" +
+                "  \"c8\" date,\n" +
+                "  \"c9\" numeric(10,2),\n" +
+                "  \"c10\" float4,\n" +
+                "  \"c11\" float8,\n" +
+                "  \"c12\" inet,\n" +
+                "  \"c13\" int2,\n" +
+                "  \"c14\" int8,\n" +
+                "  \"c15\" int2,\n" +
+                "  \"c16\" interval(6),\n" +
+                "  \"c17\" json,\n" +
+                "  \"c18\" line,\n" +
+                "  \"c19\" lseg,\n" +
+                "  \"c20\" macaddr,\n" +
+                "  \"c21\" money,\n" +
+                "  \"c22\" numeric,\n" +
+                "  \"c23\" path,\n" +
+                "  \"c24\" point,\n" +
+                "  \"c25\" polygon,\n" +
+                "  \"c26\" int4 NOT NULL ,\n" +
+                "  \"c27\" int2 NOT NULL ,\n" +
+                "  \"c28\" int4 NOT NULL ,\n" +
+                "  \"c29\" int8 NOT NULL ,\n" +
+                "  \"c30\" int2 NOT NULL ,\n" +
+                "  \"c31\" text,\n" +
+                "  \"c32\" time(6),\n" +
+                "  \"c33\" timestamp(6),\n" +
+                "  \"c34\" timestamptz(6),\n" +
+                "  \"c35\" timetz(6),\n" +
+                "  \"c36\" tsquery,\n" +
+                "  \"c37\" tsvector,\n" +
+                "  \"c38\" txid_snapshot,\n" +
+                "  \"c39\" uuid,\n" +
+                "  \"c40\" varbit,\n" +
+                "  \"c41\" varchar(255),\n" +
+                "  \"c42\" xml\n" +
+                ")";
+
+        Statement statement = parserManager.parse(new StringReader(sql));
+        System.out.println(statement);
+
+    }
+
+    @Test
     public void testCreateTable() throws JSQLParserException {
         String statement
                 = "CREATE TABLE mytab (mycol a (10, 20) c nm g, mycol2 mypar1 mypar2 (23,323,3) asdf ('23','123') dasd, "
