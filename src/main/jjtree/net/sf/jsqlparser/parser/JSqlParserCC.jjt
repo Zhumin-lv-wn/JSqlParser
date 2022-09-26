@@ -11,9 +11,9 @@
 options {
     IGNORE_CASE = true;
     STATIC = false;
-    DEBUG_PARSER = false;
-    DEBUG_LOOKAHEAD = false;
-    DEBUG_TOKEN_MANAGER = false;
+    DEBUG_PARSER = true;
+    DEBUG_LOOKAHEAD = true;
+    DEBUG_TOKEN_MANAGER = true;
     CACHE_TOKENS = false;
 //  FORCE_LA_CHECK = true;
     UNICODE_INPUT = true;
@@ -3212,9 +3212,20 @@ Expression Expression() #Expression :
     Expression retval = null;
 }
 {
-    retval=XorExpression()
+(
+    "*" { retval = new AllColumns(); }
+        |
+        LOOKAHEAD(AllTableColumns()) retval=AllTableColumns()
 
-    { return retval; }
+        |
+     retval=XorExpression()
+    )
+    {
+       return retval;
+    }
+//    retval=XorExpression()
+//
+//    { return retval; }
 }
 
 Expression XorExpression():
