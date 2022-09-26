@@ -96,6 +96,9 @@ public class Column extends ASTNodeAccessImpl implements Expression, MultiPartNa
             fqn.append('.');
         }
         if (columnName != null) {
+           if (columnName.equalsIgnoreCase("\"*\"")) {
+               columnName = columnName.replaceAll("\"", "");
+           }
             fqn.append(columnName);
         }
         return fqn.toString();
