@@ -429,6 +429,7 @@ TOKEN: /* SQL Keywords. prefixed with K_ to avoid name clashes */
 |   <K_WHERE:"WHERE">
 |   <K_WINDOW:"WINDOW">
 |   <K_WITH:"WITH">
+|   <K_ROLLUP:"rollup">
 |   <K_WITH_TIES:"WITH TIES">
 |   <K_WITHIN:"WITHIN">
 |   <K_WITHOUT:"WITHOUT">
@@ -2930,8 +2931,14 @@ GroupByElement GroupByColumnReferences():
                         | expr = SimpleExpression() { groupBy.addGroupingSet(expr); } ) )*
                 ")"
               )
+              |
+
+                 LOOKAHEAD(2) (
+                   <K_WITH>  <K_ROLLUP> {groupBy.setWithRollUp(true);}
+                 )
             )?
           )
+
     )
     {
         return groupBy;

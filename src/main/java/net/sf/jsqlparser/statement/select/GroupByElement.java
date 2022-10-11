@@ -22,6 +22,8 @@ public class GroupByElement {
     private ExpressionList groupByExpressions = new ExpressionList().withUsingBrackets(false);
     private List groupingSets = new ArrayList();
 
+    private Boolean withRollUp = false;
+
     public boolean isUsingBrackets() {
         return groupByExpressions.isUsingBrackets();
     }
@@ -121,6 +123,10 @@ public class GroupByElement {
             b.append(")");
         }
 
+        if (withRollUp) {
+            b.append(" WITH ROLLUP");
+        }
+
         return b.toString();
     }
 
@@ -158,5 +164,13 @@ public class GroupByElement {
         List collection = Optional.ofNullable(getGroupingSets()).orElseGet(ArrayList::new);
         collection.addAll(groupingSets);
         return this.withGroupingSets(collection);
+    }
+
+    public void setWithRollUp(Boolean withRollUp) {
+        this.withRollUp = withRollUp;
+    }
+
+    public Boolean getWithRollUp() {
+        return withRollUp;
     }
 }
