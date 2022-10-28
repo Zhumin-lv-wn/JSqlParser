@@ -5923,6 +5923,9 @@ AlterExpression AlterExpression():
                 constraints=AlterExpressionConstraintState() { alterExp.setConstraints(constraints); }
                 [<K_USING> sk4=RelObjectName() { alterExp.addParameters("USING", sk4); }]
                 |
+
+
+
                 LOOKAHEAD(2) (
                   (tk=<K_KEY> { alterExp.setUk(true); } | tk=<K_INDEX>)
                   sk3 = RelObjectName()
@@ -5935,8 +5938,12 @@ AlterExpression AlterExpression():
                   [<K_USING> sk4=RelObjectName() { alterExp.addParameters("USING", sk4); }]
                 )
                 |
-                LOOKAHEAD(3) (
-                    ( LOOKAHEAD(2) <K_COLUMN> { alterExp.hasColumn(true); } )?
+
+
+
+
+                LOOKAHEAD(4) (
+                    ( LOOKAHEAD(2) <K_COLUMN> { alterExp.hasColumn(true); } | <K_COLUMNS>  { alterExp.hasColumns(true); })?
 
                     (
                         LOOKAHEAD(4) (

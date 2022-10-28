@@ -65,6 +65,8 @@ public class AlterExpression {
 
   private boolean hasColumn = false;
 
+  private boolean hasColumns = false;
+
 
   private  boolean useBrackets=false;
 
@@ -76,8 +78,16 @@ public class AlterExpression {
     return useBrackets;
   }
 
+  public boolean hasColumns() {
+    return hasColumns;
+  }
+
   public void useBrackets(boolean useBrackets) {
     this.useBrackets = useBrackets;
+  }
+
+  public void hasColumns(boolean hasColumns) {
+    this.hasColumns = hasColumns;
   }
 
   public void hasColumn(boolean hasColumn) {
@@ -423,6 +433,9 @@ public class AlterExpression {
           if (hasColumn) {
             b.append("COLUMN ");
           }
+          if (hasColumns) {
+            b.append("COLUMNS ");
+          }
           if (usingIfExists) {
             b.append("IF EXISTS ");
           }
@@ -441,6 +454,9 @@ public class AlterExpression {
           } else {
             if (hasColumn) {
               b.append("COLUMN ");
+            }
+            if (hasColumns) {
+              b.append("COLUMNS ");
             }
           }
           if (useBrackets && colDataTypeList.size() == 1){
