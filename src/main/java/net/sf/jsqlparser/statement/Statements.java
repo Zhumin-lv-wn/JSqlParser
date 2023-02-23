@@ -9,13 +9,14 @@
  */
 package net.sf.jsqlparser.statement;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 
-public class Statements {
+public class Statements implements Serializable {
 
     private List<Statement> statements;
 
@@ -35,8 +36,8 @@ public class Statements {
     public String toString() {
         StringBuilder b = new StringBuilder();
         for (Statement stmt : statements) {
-            if (stmt instanceof IfElseStatement) {
-                // IfElseStatements print the Semicolons by themselves
+            // IfElseStatements and Blocks control the Semicolons by themselves
+            if (stmt instanceof IfElseStatement || stmt instanceof Block) {
                 b.append(stmt).append("\n");
             } else {
                 b.append(stmt).append(";\n");
