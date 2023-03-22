@@ -383,7 +383,6 @@ TOKEN: /* SQL Keywords. prefixed with K_ to avoid name clashes */
 |   <K_SKIP: "SKIP">
 |   <K_SOME:"SOME">
 |   <K_START:"START">
-|   <K_STORED: "STORED">
 |   <K_STRING: "STRING">
 |   <K_SUSPEND:"SUSPEND">
 |   <K_SWITCH: "SWITCH">
@@ -5613,10 +5612,7 @@ List<String> CreateParameter():
             |
             tk=<K_NULL> { param.add(tk.image); }
             |
-              tk=<K_STORED>  { param.add(tk.image); }
-              tk=<K_AS>  { param.add(tk.image); }
-              (tk=<S_IDENTIFIER> {param.add(tk.image);})*
-            |
+
             tk=<K_NOT> { param.add(tk.image); }
             |
               tk=<K_DUPLICATE> {param.add(tk.image);}
@@ -5650,8 +5646,12 @@ List<String> CreateParameter():
                 |
                 { param.add(tk.image);}
             )
+
             |
-            tk=<K_STORED> { param.add(tk.image); }
+            tk=<K_STORED> (
+                ( <K_AS> {param.add("STORED"); param.add("AS");}   (tk=<S_IDENTIFIER> {param.add(tk.image);})*) |
+                { param.add(tk.image); }
+            )
             |
             tk=<K_ON> { param.add(tk.image); }
             |
