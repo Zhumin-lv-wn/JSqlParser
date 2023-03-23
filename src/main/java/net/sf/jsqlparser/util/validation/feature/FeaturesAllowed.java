@@ -95,7 +95,7 @@ public class FeaturesAllowed implements FeatureSetValidation, ModifyableFeatureS
      */
     public static final FeaturesAllowed INSERT = new FeaturesAllowed("INSERT", Feature.insert, Feature.insertFromSelect,
             Feature.insertModifierIgnore, Feature.insertModifierPriority, Feature.insertReturningAll,
-            Feature.insertReturningExpressionList, Feature.insertUseSet,
+            Feature.insertReturningExpressionList, Feature.insertUseSet, Feature.insertUsePartition,
             Feature.insertValues, Feature.selectInto).add(SELECT).unmodifyable();
 
     /**

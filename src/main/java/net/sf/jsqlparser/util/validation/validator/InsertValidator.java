@@ -28,6 +28,7 @@ public class InsertValidator extends AbstractValidator<Insert> {
             validateFeature(c, insert.isModifierIgnore(), Feature.insertModifierIgnore);
             validateOptionalFeature(c, insert.getSelect(), Feature.insertFromSelect);
             validateFeature(c, insert.isUseSet(), Feature.insertUseSet);
+            validateFeature(c, insert.isUsePartition(), Feature.insertUsePartition);
             validateFeature(c, insert.isUseDuplicate(), Feature.insertUseDuplicateKeyUpdate);
             validateOptionalFeature(c, insert.getReturningExpressionList(), Feature.insertReturningExpressionList);
         }

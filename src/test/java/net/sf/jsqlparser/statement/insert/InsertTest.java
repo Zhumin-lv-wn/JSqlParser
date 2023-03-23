@@ -10,11 +10,7 @@
 package net.sf.jsqlparser.statement.insert;
 
 import net.sf.jsqlparser.JSQLParserException;
-import net.sf.jsqlparser.expression.DoubleValue;
-import net.sf.jsqlparser.expression.Expression;
-import net.sf.jsqlparser.expression.JdbcParameter;
-import net.sf.jsqlparser.expression.LongValue;
-import net.sf.jsqlparser.expression.StringValue;
+import net.sf.jsqlparser.expression.*;
 import net.sf.jsqlparser.expression.operators.relational.ExpressionList;
 import net.sf.jsqlparser.expression.operators.relational.MultiExpressionList;
 import net.sf.jsqlparser.parser.CCJSqlParserManager;
@@ -26,24 +22,16 @@ import net.sf.jsqlparser.statement.select.PlainSelect;
 import net.sf.jsqlparser.statement.select.Select;
 import net.sf.jsqlparser.statement.update.UpdateSet;
 import net.sf.jsqlparser.statement.values.ValuesStatement;
+import net.sf.jsqlparser.util.deparser.StatementDeParser;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.function.Executable;
 
 import java.io.StringReader;
 import java.util.Arrays;
 
-import static net.sf.jsqlparser.test.TestUtils.assertDeparse;
-import static net.sf.jsqlparser.test.TestUtils.assertOracleHintExists;
-import static net.sf.jsqlparser.test.TestUtils.assertSqlCanBeParsedAndDeparsed;
-import static net.sf.jsqlparser.test.TestUtils.assertStatementCanBeDeparsedAs;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertNull;
-import static org.junit.jupiter.api.Assertions.assertThrowsExactly;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
+import static net.sf.jsqlparser.test.TestUtils.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class InsertTest {
 
@@ -106,6 +94,19 @@ public class InsertTest {
         assertEquals("('val1')",
                 (((ExpressionList) insert.getItemsList()).getExpressions().get(0)).toString());
         assertEquals("INSERT INTO mytable (col1) VALUES ('val1')", insert.toString());
+
+    }
+
+
+    @Test
+    public void testInsertHivePartitions() throws JSQLParserException {
+        String sql = "insert into table hive_partitions partition (month='2023-03',day='22') values ('深圳','南山科技园高新中一道分店',60.512523)";
+        Insert insert = (Insert) parserManager.parse(new StringReader(sql));
+        StringBuilder sqlBuilder = new StringBuilder();
+        StatementDeParser statementDeParser = new StatementDeParser(sqlBuilder);
+        statementDeParser.visit(insert);
+        System.out.println(sqlBuilder);
+
 
     }
 

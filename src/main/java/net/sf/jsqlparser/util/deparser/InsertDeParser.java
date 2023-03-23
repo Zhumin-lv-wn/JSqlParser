@@ -78,6 +78,18 @@ public class InsertDeParser extends AbstractDeParser<Insert> implements ItemsLis
             }
             buffer.append(")");
         }
+
+        if (insert.isUsePartition()) {
+            buffer.append(" PARTITION (");
+            for (int i = 0 ; i < insert.getPartitionColumns().size(); i++) {
+                if (i != 0) {
+                    buffer.append(", ");
+                }
+                buffer.append(insert.getPartitionColumns().get(i)).append(" = ");
+                buffer.append(insert.getPartitionExpressionList().get(i));
+            }
+            buffer.append(" ) ");
+        }
         
         if (insert.getOutputClause() != null) {
             buffer.append(insert.getOutputClause().toString());

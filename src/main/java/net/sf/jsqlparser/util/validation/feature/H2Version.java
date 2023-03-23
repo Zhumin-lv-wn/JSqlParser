@@ -101,6 +101,7 @@ public enum H2Version implements Version {
                     Feature.insert,
                     Feature.insertValues,
                     Feature.values,
+                    Feature.insertUsePartition,
                     Feature.insertFromSelect,
                     // http://h2database.com/html/commands.html#update
                     Feature.update,

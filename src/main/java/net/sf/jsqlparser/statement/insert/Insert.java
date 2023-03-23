@@ -48,7 +48,9 @@ public class Insert implements Statement {
     private boolean modifierIgnore = false;
 
     private List<SelectItem> returningExpressionList = null;
-    
+    private boolean usePartition = false;
+    private List<Column> partitionColumns;
+    private List<Expression> partitionExpressionList;
     private boolean useSet = false;
     private List<Column> setColumns;
     private List<Expression> setExpressionList;
@@ -92,6 +94,14 @@ public class Insert implements Statement {
 
     public void setColumns(List<Column> list) {
         columns = list;
+    }
+
+    public void setPartitionColumns(List<Column> partitionColumns) {
+        this.partitionColumns = partitionColumns;
+    }
+
+    public List<Column> getPartitionColumns() {
+        return partitionColumns;
     }
 
     /**
@@ -189,6 +199,14 @@ public class Insert implements Statement {
         this.modifierPriority = modifierPriority;
     }
 
+    public void setPartitionExpressionList(List<Expression> partitionExpressionList) {
+        this.partitionExpressionList = partitionExpressionList;
+    }
+
+    public List<Expression> getPartitionExpressionList() {
+        return partitionExpressionList;
+    }
+
     public boolean isModifierIgnore() {
         return modifierIgnore;
     }
@@ -203,6 +221,14 @@ public class Insert implements Statement {
 
     public boolean isUseSet() {
         return useSet;
+    }
+
+    public void setUsePartition(boolean usePartition) {
+        this.usePartition = usePartition;
+    }
+
+    public boolean isUsePartition() {
+        return usePartition;
     }
 
     public void setSetColumns(List<Column> setColumns) {
@@ -285,6 +311,18 @@ public class Insert implements Statement {
         
         if (outputClause !=null) {
             sql.append(outputClause.toString());
+        }
+
+        if (this.isUsePartition()) {
+            sql.append(" PARTITION (");
+            for (int i = 0 ; i < partitionColumns.size(); i++) {
+                if (i != 0) {
+                    sql.append(", ");
+                }
+                sql.append(partitionColumns.get(i)).append(" = ");
+                sql.append(partitionExpressionList.get(i));
+            }
+            sql.append(" ) ");
         }
 
         if (select != null) {
@@ -375,6 +413,16 @@ public class Insert implements Statement {
         return this;
     }
 
+    public Insert withUsePartition(boolean usePartition) {
+        this.setUsePartition(usePartition);
+        return this;
+    }
+
+    public Insert withUsePartitionColumns(List<Column> partitionColumns) {
+        this.setPartitionColumns(partitionColumns);
+        return this;
+    }
+
     public Insert withUseSetColumns(List<Column> setColumns) {
         this.setSetColumns(setColumns);
         return this;
@@ -382,6 +430,11 @@ public class Insert implements Statement {
 
     public Insert withSetExpressionList(List<Expression> setExpressionList) {
         this.setSetExpressionList(setExpressionList);
+        return this;
+    }
+
+    public Insert withPartitionExpressionList(List<Expression> partitionExpressionList) {
+        this.setPartitionExpressionList(partitionExpressionList);
         return this;
     }
 

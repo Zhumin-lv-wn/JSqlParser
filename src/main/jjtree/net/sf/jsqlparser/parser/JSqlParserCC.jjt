@@ -1387,8 +1387,11 @@ Insert Insert( List<WithItem> with ):
     InsertModifierPriority modifierPriority = null;
     boolean modifierIgnore = false;
     boolean useSet = false;
+    boolean usePartition = false;
     List<Column> setColumns = new ArrayList<Column>();
+     List<Column> partitionColumns = new ArrayList<Column>();
     List<Expression> setExpressionList = new ArrayList<Expression>();
+    List<Expression> partitionExpressionList = new ArrayList<Expression>();
     String name = null;
     boolean useAs = false;
     OutputClause outputClause = null;
@@ -1404,7 +1407,7 @@ Insert Insert( List<WithItem> with ):
         modifierPriority = InsertModifierPriority.valueOf(tk.image.toUpperCase());
     }]
     [ LOOKAHEAD(2) <K_IGNORE>{ modifierIgnore = true; }]
-    [ LOOKAHEAD(2) <K_INTO>] table=Table()
+    [ LOOKAHEAD(2) <K_INTO> {table=Table(); }]
 
     [ LOOKAHEAD(2) [<K_AS> { useAs = true; } ] name=RelObjectNameWithoutValue() { table.setAlias(new Alias(name,useAs)); }]
 
@@ -1428,6 +1431,19 @@ Insert Insert( List<WithItem> with ):
         )
         |
         select = SelectWithWithItems( )
+        | (
+           <K_PARTITION>   {usePartition = true;}
+           ("("       tableColumn=Column() "=" exp=SimpleExpression()
+            {
+
+                partitionColumns.add(tableColumn);
+                 partitionExpressionList.add(exp);
+            }
+            ("," tableColumn=Column() "=" exp=SimpleExpression()
+                { partitionColumns.add(tableColumn);
+                partitionExpressionList.add(exp); } )*  ")"
+                select = SelectWithWithItems( )  )
+        )
     )
 
     [ LOOKAHEAD(2) <K_ON> <K_DUPLICATE> <K_KEY> <K_UPDATE>
@@ -1465,7 +1481,10 @@ Insert Insert( List<WithItem> with ):
               .withModifierPriority(modifierPriority)
               .withModifierIgnore(modifierIgnore)
               .withUseSet(useSet)
+              .withUsePartition(usePartition)
+              .withUsePartitionColumns(partitionColumns)
               .withUseSetColumns(setColumns)
+              .withPartitionExpressionList(partitionExpressionList)
               .withSetExpressionList(setExpressionList);
     }
 }

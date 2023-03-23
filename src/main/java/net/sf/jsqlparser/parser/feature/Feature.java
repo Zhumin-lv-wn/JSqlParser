@@ -288,6 +288,10 @@ public enum Feature {
      */
     insertUseSet,
     /**
+     * insert into xxx partition (x1=v1,x2=v2) values (xxxxx,xxxxx)
+     */
+    insertUsePartition,
+    /**
      * "ON DUPLICATE KEY UPDATE"
      */
     insertUseDuplicateKeyUpdate,
