@@ -592,6 +592,10 @@ public enum Feature {
      */
     showColumns,
     /**
+     * @see net.sf.jsqlparser.statement.ShowCreateTableStatement
+     */
+    showCreateTable,
+    /**
      * @see ShowIndexStatement
      */
     showIndex,

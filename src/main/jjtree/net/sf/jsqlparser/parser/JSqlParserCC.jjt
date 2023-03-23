@@ -703,6 +703,9 @@ Statement SingleStatement() :
             LOOKAHEAD(ShowColumns())
             stm = ShowColumns()
             |
+             LOOKAHEAD(ShowCreateTable())
+             stm = ShowCreateTable()
+            |
             LOOKAHEAD(ShowIndex())
             stm = ShowIndex()
             |
@@ -1192,6 +1195,16 @@ ShowIndexStatement ShowIndex(): {
     <K_SHOW> <K_INDEX> <K_FROM> tableName = RelObjectNameExt()
     {
         return new ShowIndexStatement(tableName);
+    }
+}
+
+ShowCreateTableStatement ShowCreateTable(): {
+    String tableName;
+}
+{
+    <K_SHOW> <K_CREATE> <K_TABLE> tableName = RelObjectNameExt()
+    {
+        return new ShowCreateTableStatement(tableName);
     }
 }
 

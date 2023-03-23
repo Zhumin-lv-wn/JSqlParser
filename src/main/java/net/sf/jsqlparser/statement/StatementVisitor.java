@@ -83,6 +83,8 @@ public interface StatementVisitor {
     void visit(ResetStatement reset);
 
     void visit(ShowColumnsStatement set);
+
+    void visit(ShowCreateTableStatement statement);
     
     void visit(ShowIndexStatement showIndex);
     

@@ -174,6 +174,11 @@ public class StatementVisitorAdapter implements StatementVisitor {
     }
 
     @Override
+    public void visit(ShowCreateTableStatement set) {
+
+    }
+
+    @Override
     public void visit(ShowIndexStatement set) {
     }
 

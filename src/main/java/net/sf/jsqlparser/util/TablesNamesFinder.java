@@ -106,26 +106,7 @@ import net.sf.jsqlparser.expression.operators.relational.RegExpMySQLOperator;
 import net.sf.jsqlparser.expression.operators.relational.SimilarToExpression;
 import net.sf.jsqlparser.schema.Column;
 import net.sf.jsqlparser.schema.Table;
-import net.sf.jsqlparser.statement.Block;
-import net.sf.jsqlparser.statement.Commit;
-import net.sf.jsqlparser.statement.CreateFunctionalStatement;
-import net.sf.jsqlparser.statement.DeclareStatement;
-import net.sf.jsqlparser.statement.DescribeStatement;
-import net.sf.jsqlparser.statement.ExplainStatement;
-import net.sf.jsqlparser.statement.IfElseStatement;
-import net.sf.jsqlparser.statement.PurgeObjectType;
-import net.sf.jsqlparser.statement.PurgeStatement;
-import net.sf.jsqlparser.statement.ResetStatement;
-import net.sf.jsqlparser.statement.RollbackStatement;
-import net.sf.jsqlparser.statement.SavepointStatement;
-import net.sf.jsqlparser.statement.SetStatement;
-import net.sf.jsqlparser.statement.ShowColumnsStatement;
-import net.sf.jsqlparser.statement.ShowStatement;
-import net.sf.jsqlparser.statement.Statement;
-import net.sf.jsqlparser.statement.StatementVisitor;
-import net.sf.jsqlparser.statement.Statements;
-import net.sf.jsqlparser.statement.UnsupportedStatement;
-import net.sf.jsqlparser.statement.UseStatement;
+import net.sf.jsqlparser.statement.*;
 import net.sf.jsqlparser.statement.alter.Alter;
 import net.sf.jsqlparser.statement.alter.AlterSession;
 import net.sf.jsqlparser.statement.alter.AlterSystemStatement;
@@ -871,6 +852,12 @@ public class TablesNamesFinder implements SelectVisitor, FromItemVisitor, Expres
 
     @Override
     public void visit(ShowIndexStatement showIndex) {
+        throw new UnsupportedOperationException(NOT_SUPPORTED_YET);
+    }
+
+
+    @Override
+    public void visit(ShowCreateTableStatement showCreateTable) {
         throw new UnsupportedOperationException(NOT_SUPPORTED_YET);
     }
     

@@ -11,6 +11,7 @@ package net.sf.jsqlparser.statement.show;
 
 import net.sf.jsqlparser.JSQLParserException;
 import net.sf.jsqlparser.parser.CCJSqlParserUtil;
+import net.sf.jsqlparser.statement.Statement;
 import net.sf.jsqlparser.test.TestUtils;
 import static net.sf.jsqlparser.test.TestUtils.assertSqlCanBeParsedAndDeparsed;
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -22,6 +23,18 @@ public class ShowTablesStatementTest {
     public void showTables() throws Exception {
         assertSqlCanBeParsedAndDeparsed("SHOW TABLES");
     }
+
+
+    @Test
+    public void showCreateTables() throws Exception {
+        String sql = "SHOW CREATE TABLE tableName";
+        Statement statement = CCJSqlParserUtil.parse(sql, null);
+        System.out.println(statement.toString());
+
+        assertSqlCanBeParsedAndDeparsed(sql);
+
+    }
+
 
     @Test
     public void showTablesModifiers() throws Exception {
