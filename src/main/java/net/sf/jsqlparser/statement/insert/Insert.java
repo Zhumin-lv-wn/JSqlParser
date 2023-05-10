@@ -58,12 +58,22 @@ public class Insert implements Statement {
     private InsertConflictTarget conflictTarget;
     private InsertConflictAction conflictAction;
 
+    private Boolean useOverWrite = false;
+
     public OutputClause getOutputClause() {
         return outputClause;
     }
 
     public void setOutputClause(OutputClause outputClause) {
         this.outputClause = outputClause;
+    }
+
+    public void setUseOverWrite(Boolean useOverwrite) {
+        this.useOverWrite = useOverwrite;
+    }
+
+    public Boolean getUseOverWrite() {
+        return useOverWrite;
     }
 
     @Override
@@ -294,7 +304,11 @@ public class Insert implements Statement {
         if (modifierIgnore) {
             sql.append("IGNORE ");
         }
-        sql.append("INTO ");
+        if (useOverWrite) {
+            sql.append("OVERWRITE ");
+        } else {
+            sql.append("INTO ");
+        }
         sql.append(table).append(" ");
         if (columns != null) {
             sql.append(PlainSelect.getStringList(columns, true, true)).append(" ");
@@ -437,6 +451,12 @@ public class Insert implements Statement {
 
     public Insert withColumns(List<Column> columns) {
         this.setColumns(columns);
+        return this;
+    }
+
+
+    public Insert withOverWrite(Boolean useOverWrite) {
+        this.setUseOverWrite(useOverWrite);
         return this;
     }
 
