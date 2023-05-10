@@ -100,6 +100,19 @@ public class InsertTest {
 
     @Test
     public void testInsertHivePartitions() throws JSQLParserException {
+        String sql = "insert overwrite table hive_partitions partition(month='2023-03',day='21') values ('深圳','南山科技园科技中一路分店',70.650349);";
+        Insert insert = (Insert) parserManager.parse(new StringReader(sql));
+        StringBuilder sqlBuilder = new StringBuilder();
+        StatementDeParser statementDeParser = new StatementDeParser(sqlBuilder);
+        statementDeParser.visit(insert);
+        System.out.println(sqlBuilder);
+
+
+    }
+
+
+    @Test
+    public void testInsertOverride() throws JSQLParserException {
         String sql = "insert into table hive_partitions partition (month='2023-03',day='22') values ('深圳','南山科技园高新中一道分店',60.512523)";
         Insert insert = (Insert) parserManager.parse(new StringReader(sql));
         StringBuilder sqlBuilder = new StringBuilder();
