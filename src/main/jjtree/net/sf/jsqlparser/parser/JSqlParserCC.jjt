@@ -259,6 +259,7 @@ TOKEN: /* SQL Keywords. prefixed with K_ to avoid name clashes */
 |   <K_INNER:"INNER">
 |   <K_STRAIGHT:"STRAIGHT_JOIN">
 |   <K_INSERT:"INSERT">
+|   <K_OVERWRITE:"OVERWRITE">
 |   <K_INTERLEAVE: "INTERLEAVE">
 |   <K_INTERSECT:"INTERSECT">
 |   <K_INTERVAL:"INTERVAL">
@@ -1386,6 +1387,7 @@ Insert Insert( List<WithItem> with ):
     Token tk = null;
     InsertModifierPriority modifierPriority = null;
     boolean modifierIgnore = false;
+    boolean useOverWrite  = false;
     boolean useSet = false;
     boolean usePartition = false;
     List<Column> setColumns = new ArrayList<Column>();
@@ -1407,8 +1409,8 @@ Insert Insert( List<WithItem> with ):
         modifierPriority = InsertModifierPriority.valueOf(tk.image.toUpperCase());
     }]
     [ LOOKAHEAD(2) <K_IGNORE>{ modifierIgnore = true; }]
-    [ LOOKAHEAD(2) <K_INTO> {table=Table(); }]
-
+    [ LOOKAHEAD(2) <K_OVERWRITE>{ useOverWrite = true; table=Table(); }]
+    [ LOOKAHEAD(2) <K_INTO> {table=Table();}]
     [ LOOKAHEAD(2) [<K_AS> { useAs = true; } ] name=RelObjectNameWithoutValue() { table.setAlias(new Alias(name,useAs)); }]
 
     [LOOKAHEAD(2) "(" tableColumn=Column() { columns.add(tableColumn); } ("," tableColumn=Column() { columns.add(tableColumn); } )* ")"  ]
@@ -1485,7 +1487,8 @@ Insert Insert( List<WithItem> with ):
               .withUsePartitionColumns(partitionColumns)
               .withUseSetColumns(setColumns)
               .withPartitionExpressionList(partitionExpressionList)
-              .withSetExpressionList(setExpressionList);
+              .withSetExpressionList(setExpressionList)
+              .withOverWrite(useOverWrite);
     }
 }
 

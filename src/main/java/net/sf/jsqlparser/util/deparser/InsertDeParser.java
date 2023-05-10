@@ -63,7 +63,11 @@ public class InsertDeParser extends AbstractDeParser<Insert> implements ItemsLis
         if (insert.isModifierIgnore()) {
             buffer.append("IGNORE ");
         }
-        buffer.append("INTO ");
+        if (insert.getUseOverWrite()) {
+            buffer.append("OVERWRITE ");
+        } else {
+            buffer.append("INTO ");
+        }
 
         buffer.append(insert.getTable().toString());
 
