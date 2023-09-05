@@ -5373,6 +5373,20 @@ CreateTable CreateTable():
                 ","
 
                 (
+                     LOOKAHEAD(3) (
+                                           <K_UNIQUE>  <K_INDEX>
+                                                 sk3=RelObjectName()
+                                                 /* colNames=ColumnsNamesList() */
+                                                 colNames = ColumnNamesWithParamsList()
+                                                 { idxSpec.clear(); }
+                                                 ( parameter=CreateParameter() { idxSpec.addAll(parameter); } )*
+                                                 {
+                                                     index = new Index().withType("UNIQUE").withName(sk3).withColumns(colNames).withIndexSpec(new ArrayList<String>(idxSpec));
+                                                     indexes.add(index);
+                                                 }
+                                         )
+                       |
+
                     LOOKAHEAD(3) (
                         tk=<K_INDEX>
                             sk3=RelObjectName()
