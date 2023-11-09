@@ -454,7 +454,7 @@ TOKEN: /* SQL Keywords. prefixed with K_ to avoid name clashes */
 
 TOKEN : /* Statement Separators */
 {
-    <ST_SEMICOLON : ( ";" | ("\n\n\n") | "\n/\n" | "\ngo"  ) >
+    <ST_SEMICOLON : ( ";"  | "\n/\n" | "\ngo"  ) >
 }
 
 TOKEN : /* Operators */
@@ -1056,11 +1056,24 @@ PurgeStatement PurgeStatement(): {
 
 DescribeStatement Describe(): {
     Table table;
+    DescribeStatement desc ;
 } {
-    <K_DESCRIBE> table = Table()
-    {
-        return new DescribeStatement(table);
-    }
+     ( (<K_DESCRIBE> table = Table()
+                {
+                     desc = new DescribeStatement(table);
+                }
+
+               )
+             | (<K_DESC> table = Table()
+               {
+                  desc = new DescribeStatement(table);
+                 desc.setUseDesc(true);
+
+                }
+             ))
+             {
+                 return desc;
+            }
 }
 
 ExplainStatement Explain(): {
@@ -5374,7 +5387,7 @@ CreateTable CreateTable():
 
                 (
                      LOOKAHEAD(3) (
-                                           <K_UNIQUE>  <K_INDEX>
+                                           <K_UNIQUE> [tk2=<K_INDEX>]
                                                  sk3=RelObjectName()
                                                  /* colNames=ColumnsNamesList() */
                                                  colNames = ColumnNamesWithParamsList()

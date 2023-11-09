@@ -15,8 +15,18 @@ public class DescribeStatement implements Statement {
 
     private Table table;
 
+    private Boolean useDesc = false;
+
     public DescribeStatement() {
         // empty constructor
+    }
+
+    public void setUseDesc(Boolean useDesc) {
+        this.useDesc = useDesc;
+    }
+
+    public Boolean getUseDesc() {
+        return useDesc;
     }
 
     public DescribeStatement(Table table) {
@@ -33,7 +43,13 @@ public class DescribeStatement implements Statement {
 
     @Override
     public String toString() {
-        return "DESCRIBE " + table.getFullyQualifiedName();
+        String value ;
+        if (useDesc) {
+            value = "DESC ";
+        } else {
+            value =  "DESCRIBE ";
+        }
+        return value + table.getFullyQualifiedName();
     }
 
     @Override
